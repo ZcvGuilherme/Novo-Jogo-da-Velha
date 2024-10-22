@@ -1,0 +1,77 @@
+{
+    // Use o IntelliSense para saber mais sobre os atributos possíveis.
+    // Focalizar para exibir as descrições dos atributos existentes.
+    // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "exemplo",
+            "request": "launch",
+            "mainClass": "GAME.exemplo",
+            "projectName": "Jogo da Velha_acf55c28"
+        },
+        {
+            "type": "java",
+            "name": "exemplo",
+            "request": "launch",
+            "mainClass": "TERMINAL.exemplo",
+            "projectName": "Jogo da Velha_acf55c28"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "TERMINAL.Main",
+            "projectName": "Jogo da Velha_acf55c28"
+        },
+        {
+            "type": "java",
+            "name": "teste",
+            "request": "launch",
+            "mainClass": "GAME.teste",
+            "projectName": "Jogo da Velha_acf55c28"
+        },
+        {
+            "type": "java",
+            "name": "NomeTela",
+            "request": "launch",
+            "mainClass": "GUI.NomeTela",
+            "projectName": "Jogo da Velha_acf55c28"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "GUI.Main",
+            "projectName": "Jogo da Velha_acf55c28"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "GUI.TELAS.Main",
+            "projectName": "Jogo da Velha_acf55c28"
+        },
+        {
+            "type": "java",
+            "name": "MainApp",
+            "request": "launch",
+            "mainClass": "GUI.MainApp",
+            "projectName": "Jogo da Velha_acf55c28"
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "Jogo da Velha_acf55c28"
+        }
+    ]
+}
