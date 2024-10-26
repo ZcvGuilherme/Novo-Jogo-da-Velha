@@ -4,6 +4,7 @@ import GAME.PLAYERS.Player;
 import GAME.TABULEIRO.Board;
 import GAME.VERIFICADOR.RuleChecker;
 import java.util.List;
+
 public class Game {
     private List<Player> players;
     private Board board;
@@ -11,21 +12,15 @@ public class Game {
     private Player currentPlayer;
     private int indexPlayer;
     private char lastPlayer;
-    /**Construtor da Classe Game, une os principais componentes do jogo da velha, como players, tabuleiro e regras. Essa classe gerencia a lógica do jogo, alternância dos jogadores e atualização do tabuleiro
-     * 
-     * @param players               Lista de jogadores que participarão do jogo
-     * @param board                 O tabuleiro onde será jogado o jogo
-     * @param ruleChecker           O verificador das regras e validador de jogadas
-     * @throws IllegalArgumentException Se  a lista de jogadores for nula ou tiver menos de 2 jogadores
-     */
-    public Game(List<Player> players, Board board, RuleChecker ruleChecker) {
+    
+    public Game(List<Player> players, int size) {
         if (players == null || players.size() < 2){
         throw new IllegalArgumentException("O jogo requer no mínimo 2 jogadores");}
         this.players = players;
-        this.board = board;
+        this.board = new Board(size);
         this.indexPlayer = 0;
+        this.ruleChecker = new RuleChecker(board);
         this.currentPlayer = players.get(indexPlayer);
-        this.ruleChecker = ruleChecker;
     }
     public void nextPlayer(){
         indexPlayer = (indexPlayer + 1) % players.size();
@@ -41,10 +36,11 @@ public class Game {
      * @return retorna true caso a jogada seja válida, false caso seja inválida
      */
     public boolean play(int i, int j){
-        if (ruleChecker.isValidMove(i, j, board)){
+        if (ruleChecker.isValidMove(i, j)){
         lastPlayer = currentPlayer.getsymbol();
         board.setPlay(i, j, lastPlayer);
         nextPlayer();
+        isGameOver();
         return true;
     } else {
         //Faça aqui alguma mudança de lógica caso necessário retornar algo
@@ -52,10 +48,16 @@ public class Game {
         return false;
         }
     }
-    public boolean GameOver(){
-        return ruleChecker.isGameOver(lastPlayer, board);
+    public boolean isGameOver(){
+        return ruleChecker.isGameOver(lastPlayer);
     }
-        /**
+    public boolean isDraw(){
+        return ruleChecker.isDraw();
+    }
+    public boolean isWin(){
+        return ruleChecker.checkWin(lastPlayer);
+    }
+/**
  * Exibe o tabuleiro no terminal, independentemente do tamanho.
  * Este método imprime o tabuleiro atual, adicionando separadores para melhorar a visualização.
  */
@@ -65,11 +67,9 @@ public class Game {
     public void mostrarTabuleiro() {
     int size = board.getSize();
     for (int i = 0; i < size; i++) {
-        // Imprimir os elementos da linha
         for (int j = 0; j < size; j++) {
             System.out.print(" " + board.getSlot(i, j));
             if (j < size - 1) {
-                // Adicionar um separador de coluna, exceto após o último elemento
                 System.out.print(" |");
             }
         }

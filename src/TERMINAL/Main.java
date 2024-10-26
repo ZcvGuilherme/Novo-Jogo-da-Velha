@@ -2,8 +2,6 @@ package TERMINAL;
 
 import GAME.Game;
 import GAME.PLAYERS.Player;
-import GAME.TABULEIRO.Board;
-import GAME.VERIFICADOR.RuleChecker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,12 +13,11 @@ public class Main {
         List<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
-        RuleChecker ruleChecker = new RuleChecker();
-        Board board = new Board(3);
         Scanner scanner = new Scanner(System.in);
-        Game game = new Game(players, board, ruleChecker);
-        boolean endGame = game.GameOver();
+        Game game = new Game(players, 3);
+        boolean endGame = game.isGameOver();
         Player currentPlayer = game.getCurrentPlayer();
+
         while (!endGame) { 
             LimpaTela();
             if (endGame){
@@ -39,7 +36,7 @@ public class Main {
             } else {
                 System.out.println("Jogada inválida! Tente novamente");
             }
-            endGame = game.GameOver();
+            endGame = game.isGameOver();
         }
         LimpaTela();
         game.mostrarTabuleiro();

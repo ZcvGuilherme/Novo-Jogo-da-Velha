@@ -6,6 +6,8 @@ import GUI.COMPONENTES.CriarComponente;
 import GUI.TELAS.INGAME.TelaGame;
 import GUI.TELAS.INGAME.VSLOCAL.TelaGame1v1;
 import GUI.TELAS.Iniciar;
+import GUI.TELAS.TelaGenerica;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -47,7 +49,7 @@ public class TelaPrincipal extends TelaGenerica{
     }
     private void comando2(String NomePlayer1){
         tela.setVisible(false);
-        TelaGame1v1 telaJogo = Iniciar.TelaJogo1v1(NomePlayer1);
+        TelaGame telaJogo = Iniciar.TelaJogo1v1(NomePlayer1);
         telaJogo.setTelaPrincipal(this);
         
         

@@ -1,14 +1,19 @@
 package GUI.TELAS.INGAME;
 
 import GAME.Game;
+import GAME.PLAYERS.Player;
 import GUI.COMPONENTES.Botao;
 import GUI.COMPONENTES.BotaoGame;
 import GUI.COMPONENTES.CriarComponente;
-import GUI.TELAS.OUTGAME.TelaGenerica;
+import GUI.COMPONENTES.PopUp;
+import GUI.TELAS.TelaGenerica;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,24 +22,30 @@ public abstract class TelaGame extends TelaGenerica{
     private TelaGenerica telaPrincipalReferencia;
     private JLabel campoJogadorAtual;
     private char playerAtual;
-    private final String nomePlayer1;
-    private final String nomePlayer2;
     private String nomePlayerAtual;
     private Botao botaoSair;
     private Botao botaoReiniciar;
     private BotaoGame[][] botoesGame;
     private final int size;
     private JPanel painelPrincipal;
-    private Game game;
+    private final Game game;
+    private final Player player1;
+    private final Player player2;
+    private final List<Player> listaPlayer = new ArrayList<>();
+    private boolean statusGame;
+    private PopUp popUp;
 
-    public TelaGame(int size, String nomePlayer1, String nomePlayer2, Game game){
+    public TelaGame(int size, String nomePlayer1, String nomePlayer2){
         super("Jogo da Velha", 500, 600, 300, 100, false);
         this.size = size;
-        this.game = game;
-        this.nomePlayer1 = nomePlayer1;
-        this.nomePlayer2 = nomePlayer2;
-        this.nomePlayerAtual = nomePlayer1;
-        playerAtual = 'X';
+        
+        player1 = new Player(1, nomePlayer1, 'X');
+        player2 = new Player(2, nomePlayer2, 'O');
+        listaPlayer.add(player1);
+        listaPlayer.add(player2);
+        game = new Game(listaPlayer, size);
+        this.nomePlayerAtual = game.getCurrentPlayer().getNome();
+        playerAtual = game.getCurrentPlayer().getsymbol();
         iniciarComponentes(size);
         tela.setVisible(true);
         tela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -42,10 +53,15 @@ public abstract class TelaGame extends TelaGenerica{
         painelPrincipal.revalidate();
         painelPrincipal.repaint();
     }
+    public boolean getStatusGame(){
+        return statusGame;
+    }
+    public void changeStatusGame(){
+        this.statusGame = game.isGameOver();
+    }
     public void setTelaPrincipal(TelaGenerica telaPrincipal){
         this.telaPrincipalReferencia = telaPrincipal;
     }
-
     private void configuraFechamentoTela(){
         tela.addWindowListener(new WindowAdapter(){
             @Override
@@ -89,7 +105,7 @@ public abstract class TelaGame extends TelaGenerica{
                 botoesGame[i][j].limparBotao();
             }
         }
-
+        game.resetGame();
     }
     private void botaoReiniciarConfig(){
         botaoReiniciar.setBounds(50, 480, 150, 50);
@@ -114,18 +130,33 @@ public abstract class TelaGame extends TelaGenerica{
         campoJogadorAtual.setBounds(120, 10, 700, 30);
     }
     private void ativarBotao(BotaoGame botao, int i, int j){
-        if (botao.getClicavel() && game.play(i, j)){
+        if (game.isDraw()){
+            popUp = new PopUp("EMPATE", "EMPATOU");
+            popUp.mostrar();
+        } else if (game.isWin()){
+            popUp = new PopUp("VITÓRIA", "VENCEDOR: " + nomePlayerAtual);
+            popUp.mostrar();
+        } else if (botao.getClicavel() && !game.isDraw() && !game.isWin()){
+            if (game.isDraw()){
+                popUp = new PopUp("EMPATE", "EMPATOU");
+                popUp.mostrar();
+            } else if (game.isWin()){
+                popUp = new PopUp("VITÓRIA", "VENCEDOR: " + nomePlayerAtual);
+                popUp.mostrar();
+            }
+            game.play(i, j);
+            changePlayerName();
             botao.setImage(playerAtual);
             botao.setClicavel(false);
-            changePlayerName();
             campoJogadorAtual.setText("Jogador Atual: " + nomePlayerAtual);
-            playerAtual = (playerAtual == 'X') ? 'O' : 'X';
+            playerAtual = game.getCurrentPlayer().getsymbol();
             setCampoColor();
-        }
-    }
+            
+        } 
+    } 
+    
     private void changePlayerName(){
-        nomePlayerAtual = (nomePlayerAtual.equals(nomePlayer1)) ? nomePlayer2
-: nomePlayer1;
+        this.nomePlayerAtual = game.getCurrentPlayer().getNome();
     }
     private void setCampoColor(){
         if (playerAtual == 'X'){

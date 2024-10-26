@@ -1,4 +1,4 @@
-package GUI.TELAS.OUTGAME;
+package GUI.TELAS;
 
 import java.awt.Dimension;
 import javax.swing.JFrame;
