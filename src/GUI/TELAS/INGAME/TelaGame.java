@@ -7,7 +7,6 @@ import GUI.COMPONENTES.BotaoGame;
 import GUI.COMPONENTES.CriarComponente;
 import GUI.COMPONENTES.PopUp;
 import GUI.TELAS.TelaGenerica;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
@@ -129,30 +128,31 @@ public abstract class TelaGame extends TelaGenerica{
         setCampoColor();
         campoJogadorAtual.setBounds(120, 10, 700, 30);
     }
-    private void ativarBotao(BotaoGame botao, int i, int j){
-        if (game.isDraw()){
-            popUp = new PopUp("EMPATE", "EMPATOU");
-            popUp.mostrar();
-        } else if (game.isWin()){
+    public void verificarVitoria(){
+        if(game.isWin()){
             popUp = new PopUp("VITÓRIA", "VENCEDOR: " + nomePlayerAtual);
             popUp.mostrar();
-        } else if (botao.getClicavel() && !game.isDraw() && !game.isWin()){
-            if (game.isDraw()){
-                popUp = new PopUp("EMPATE", "EMPATOU");
-                popUp.mostrar();
-            } else if (game.isWin()){
-                popUp = new PopUp("VITÓRIA", "VENCEDOR: " + nomePlayerAtual);
-                popUp.mostrar();
-            }
+            
+        } else if (game.isDraw()){
+            popUp = popUp = new PopUp("EMPATE", "  EMPATOU");
+            popUp.mostrar();
+        }
+    }
+
+    private void ativarBotao(BotaoGame botao, int i, int j){
+        if (botao.getClicavel() && !game.isDraw() && !game.isWin()){
             game.play(i, j);
-            changePlayerName();
             botao.setImage(playerAtual);
             botao.setClicavel(false);
-            campoJogadorAtual.setText("Jogador Atual: " + nomePlayerAtual);
-            playerAtual = game.getCurrentPlayer().getsymbol();
-            setCampoColor();
             
-        } 
+            if (!game.isGameOver()){
+                changePlayerName();
+                playerAtual = game.getCurrentPlayer().getsymbol();
+                campoJogadorAtual.setText("Jogador atual: " + nomePlayerAtual);
+                setCampoColor();
+            }
+        }verificarVitoria();
+        
     } 
     
     private void changePlayerName(){
