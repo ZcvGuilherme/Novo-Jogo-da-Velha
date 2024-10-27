@@ -57,12 +57,13 @@ public class Game {
     public boolean isWin(){
         return ruleChecker.checkWin(lastPlayer);
     }
-/**
- * Exibe o tabuleiro no terminal, independentemente do tamanho.
- * Este método imprime o tabuleiro atual, adicionando separadores para melhorar a visualização.
- */
+    /**
+     * Exibe o tabuleiro no terminal, independentemente do tamanho.
+     * Este método imprime o tabuleiro atual, adicionando separadores para melhorar a visualização.
+     */
     public void resetGame() {
         board.clear();
+        resetPlayer();
     }
     public void mostrarTabuleiro() {
     int size = board.getSize();
@@ -88,4 +89,8 @@ public class Game {
         }
     }
 }
+    private void resetPlayer(){
+        indexPlayer = 0;
+        currentPlayer = players.get(indexPlayer);
+    }
 }

@@ -20,8 +20,7 @@ import javax.swing.JPanel;
 public abstract class TelaGame extends TelaGenerica{
     private TelaGenerica telaPrincipalReferencia;
     private JLabel campoJogadorAtual;
-    private char playerAtual;
-    private String nomePlayerAtual;
+    private Player playerAtual;
     private Botao botaoSair;
     private Botao botaoReiniciar;
     private BotaoGame[][] botoesGame;
@@ -33,6 +32,7 @@ public abstract class TelaGame extends TelaGenerica{
     private final List<Player> listaPlayer = new ArrayList<>();
     private boolean statusGame;
     private PopUp popUp;
+    
 
     public TelaGame(int size, String nomePlayer1, String nomePlayer2){
         super("Jogo da Velha", 500, 600, 300, 100, false);
@@ -43,8 +43,8 @@ public abstract class TelaGame extends TelaGenerica{
         listaPlayer.add(player1);
         listaPlayer.add(player2);
         game = new Game(listaPlayer, size);
-        this.nomePlayerAtual = game.getCurrentPlayer().getNome();
-        playerAtual = game.getCurrentPlayer().getsymbol();
+        
+        playerAtual = game.getCurrentPlayer();
         iniciarComponentes(size);
         tela.setVisible(true);
         tela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -105,6 +105,8 @@ public abstract class TelaGame extends TelaGenerica{
             }
         }
         game.resetGame();
+        changePlayer();
+        
     }
     private void botaoReiniciarConfig(){
         botaoReiniciar.setBounds(50, 480, 150, 50);
@@ -123,14 +125,14 @@ public abstract class TelaGame extends TelaGenerica{
         painelPrincipal.setBounds(0, 0, 500,600);
     }
     private void jogadorAtualConfig() {
-        campoJogadorAtual = CriarComponente.criarLabel("Jogador atual: " + nomePlayerAtual);
+        campoJogadorAtual = CriarComponente.criarLabel("Jogador atual: " + playerAtual.getNome());
         campoJogadorAtual.setFont(new Font("Arial", Font.BOLD, 24));
         setCampoColor();
         campoJogadorAtual.setBounds(120, 10, 700, 30);
     }
     public void verificarVitoria(){
         if(game.isWin()){
-            popUp = new PopUp("VITÓRIA", "VENCEDOR: " + nomePlayerAtual);
+            popUp = new PopUp("VITÓRIA", "VENCEDOR: " + playerAtual.getNome());
             popUp.mostrar();
             
         } else if (game.isDraw()){
@@ -140,26 +142,23 @@ public abstract class TelaGame extends TelaGenerica{
     }
 
     private void ativarBotao(BotaoGame botao, int i, int j){
-        if (botao.getClicavel() && !game.isDraw() && !game.isWin()){
+        if (botao.getClicavel() && !game.isGameOver()){
             game.play(i, j);
-            botao.setImage(playerAtual);
+            botao.setImage(playerAtual.getsymbol());
             botao.setClicavel(false);
-            
             if (!game.isGameOver()){
-                changePlayerName();
-                playerAtual = game.getCurrentPlayer().getsymbol();
-                campoJogadorAtual.setText("Jogador atual: " + nomePlayerAtual);
+                changePlayer();
+                campoJogadorAtual.setText("Jogador atual: " + playerAtual.getNome());
                 setCampoColor();
             }
-        }verificarVitoria();
-        
+        }verificarVitoria();  
     } 
     
-    private void changePlayerName(){
-        this.nomePlayerAtual = game.getCurrentPlayer().getNome();
+    private void changePlayer(){
+        playerAtual = game.getCurrentPlayer();
     }
     private void setCampoColor(){
-        if (playerAtual == 'X'){
+        if (playerAtual.getsymbol() == 'X'){
             campoJogadorAtual.setForeground(Color.RED);
         } else {
             campoJogadorAtual.setForeground(Color.BLUE);
