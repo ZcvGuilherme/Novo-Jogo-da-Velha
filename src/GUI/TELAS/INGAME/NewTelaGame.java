@@ -1,63 +1,54 @@
 package GUI.TELAS.INGAME;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import GAME.Game;
 import GAME.PLAYERS.Player;
 import GUI.COMPONENTES.Botao;
 import GUI.COMPONENTES.BotaoGame;
 import GUI.COMPONENTES.CriarComponente;
+import GUI.COMPONENTES.GameMode;
 import GUI.COMPONENTES.PopUp;
 import GUI.TELAS.TelaGenerica;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-public class TelaGame extends TelaGenerica {
-    private TelaGenerica telaPrincipalReferencia;
+public class NewTelaGame extends TelaGenerica{
+	
     private Player playerAtual;
     private final int size;
-    private final Game game;
-    private final Player player1;
-    private final Player player2;
-    private final List<Player> listaPlayer = new ArrayList<>();
     private boolean statusGame;
+	private TelaGenerica telaPrincipalReferencia;
     private PopUp popUp;
-
     private JLabel campoJogadorAtual;
     private Botao botaoSair;
     private Botao botaoReiniciar;
     private BotaoGame[][] botoesGame;
     private JPanel painelPrincipal;
+    private GameMode gameMode;
+	public NewTelaGame(GameMode gameMode) {
+		super(gameMode.getNomeTela(), 500, 600, 300, 100, false);
+		this.gameMode = gameMode;
+		this.size = gameMode.getSize();
 
-    public TelaGame(int size, String nomePlayer1, String nomePlayer2) {
-        super("Jogo da Velha", 500, 600, 300, 100, false);
-        this.size = size;
-        player1 = new Player(nomePlayer1, 'X');
-        player2 = new Player(nomePlayer2, 'O');
-        listaPlayer.add(player1);
-        listaPlayer.add(player2);
-        game = new Game(listaPlayer, size);
-        
-        playerAtual = game.getCurrentPlayer();
+		this.playerAtual = gameMode.getCurrentPlayer();
         iniciarComponentes(size);
         tela.setVisible(true);
         tela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         configuraFechamentoTela();
         painelPrincipal.revalidate();
         painelPrincipal.repaint();
+	}
+	public void verificarStatusGame() {
+        this.statusGame = isGameOver();
     }
-    
-    public void verificarStatusGame() {
-        this.statusGame = game.isGameOver();
-    }
-
+	private boolean isGameOver() {
+		return gameMode.isDraw() || gameMode.isWin();
+		
+	}
     public void setTelaPrincipal(TelaGenerica telaPrincipal) {
         this.telaPrincipalReferencia = telaPrincipal;
     }
@@ -74,21 +65,31 @@ public class TelaGame extends TelaGenerica {
     }
 
     private void verificarVitoria() {
-        if (game.isWin()) {
+        if (gameMode.isWin()) {
             popUp = new PopUp("VITÓRIA", "VENCEDOR: " + playerAtual.getNome());
             popUp.mostrar();
-        } else if (game.isDraw()) {
+        } else if (gameMode.isDraw()) {
             popUp = new PopUp("EMPATE", "  EMPATOU");
             popUp.mostrar();
         }
     }
 
+	public void setBotoesClicavel(boolean clicavel){
+		for (int i = 0 ; i < botoesGame.length ; i++){
+			for (int j = 0; j < botoesGame.length; j++){
+				if (botoesGame[i][j].foiClicado())
+					botoesGame[i][j].setClicavel(clicavel);
+			}
+		}
+	}
+	
     private void ativarBotao(BotaoGame botao, int i, int j) {
-        if (botao.getClicavel() && !game.isGameOver()) {
-            game.play(i, j);
+        if (botao.getClicavel() && !isGameOver() && gameMode.getIsTurn()) {
+            gameMode.play(i, j);
+			botao.setFoiClicado(true);
             botao.setImage(playerAtual.getsymbol());
             botao.setClicavel(false);
-            if (!game.isGameOver()) {
+            if (!isGameOver()) {
                 changePlayer();
                 campoJogadorAtual.setText("Jogador atual: " + playerAtual.getNome());
                 setCampoColor();
@@ -96,9 +97,8 @@ public class TelaGame extends TelaGenerica {
         }
         verificarVitoria();
     }
-
     private void changePlayer() {
-        playerAtual = game.getCurrentPlayer();
+        playerAtual = gameMode.getCurrentPlayer();
     }
 
     private void restartGame() {
@@ -107,7 +107,7 @@ public class TelaGame extends TelaGenerica {
                 botoesGame[i][j].limparBotao();
             }
         }
-        game.resetGame();
+        gameMode.resetGame();
         changePlayer();
     }
 
@@ -173,4 +173,5 @@ public class TelaGame extends TelaGenerica {
     	campoJogadorAtual.setForeground((playerAtual.getsymbol() == 'X'? Color.RED: Color.BLUE));
         
     }
+
 }

@@ -1,9 +1,11 @@
 package GAME;
 
+import java.util.List;
+import java.util.Random;
+
 import GAME.PLAYERS.Player;
 import GAME.TABULEIRO.Board;
 import GAME.VERIFICADOR.RuleChecker;
-import java.util.List;
 
 public class Game {
     private List<Player> players;
@@ -28,6 +30,9 @@ public class Game {
     }
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+    public void setCurrentPlayer(int index) {
+    	this.currentPlayer = players.get(index);
     }
     /** 
      * Método para atualizar o tabuleiro, se a jogada for válida
@@ -92,5 +97,10 @@ public class Game {
     private void resetPlayer(){
         indexPlayer = 0;
         currentPlayer = players.get(indexPlayer);
+    }
+    public void randomPlayer() {
+    	Random random = new Random();
+    	indexPlayer = random.nextInt(players.size());
+    	currentPlayer = players.get(indexPlayer);
     }
 }

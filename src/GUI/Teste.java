@@ -1,10 +1,13 @@
 package GUI;
 
-import GUI.COMPONENTES.PopUp;
+
+import GUI.TELAS.INGAME.NewTelaGame;
+import GUI.TELAS.INGAME.VSLOCAL.GameMode1v1;
+import GUI.TELAS.INGAME.VSONLINE.GameModeVsPC;
 
 public class Teste {
     public static void main(String[] args) {
-        PopUp popUp = new PopUp("VITÓRIA", "VENCEDOR: " + "Player1");
-        popUp.mostrar();
+        NewTelaGame tela = new NewTelaGame(new GameModeVsPC("Guilherme"));
+        tela.mostrar();
     }
 }

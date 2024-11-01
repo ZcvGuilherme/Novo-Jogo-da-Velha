@@ -1,7 +1,8 @@
 package GUI.TELAS;
-
+import GUI.COMPONENTES.GameMode;
+import GUI.TELAS.INGAME.NewTelaGame;
 import GUI.TELAS.INGAME.TelaGame;
-import GUI.TELAS.INGAME.VSLOCAL.TelaGame1v1;
+import GUI.TELAS.INGAME.VSLOCAL.GameMode1v1;
 import GUI.TELAS.OUTGAME.AddPlayer;
 import GUI.TELAS.OUTGAME.TelaPrincipal;
 
@@ -14,9 +15,11 @@ public class Iniciar {
         TelaPrincipal tela = new TelaPrincipal(nomePlayer);
         tela.mostrar();
     }
-    public static TelaGame TelaJogo1v1(String nomePlayer1){
-        TelaGame tela = new TelaGame1v1(nomePlayer1);
-        tela.mostrar();
-        return tela;
+    public static void TelaJogo() {
+    	TelaGame tela = new TelaGame(3, "player1", "player2");
+    	tela.mostrar();
+    }
+    public static void TelaGame(GameMode gameMode) {
+    	NewTelaGame tela = new NewTelaGame(gameMode);
     }
 }

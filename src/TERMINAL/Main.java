@@ -1,15 +1,16 @@
 package TERMINAL;
 
-import GAME.Game;
-import GAME.PLAYERS.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import GAME.Game;
+import GAME.PLAYERS.Player;
+
 public class Main {
     public static void main(String[] Args){
-        Player player1 = new Player(1, "Player 1", 'X');
-        Player player2 = new Player(2, "Player 2", 'O');
+        Player player1 = new Player("Player 1", 'X');
+        Player player2 = new Player("Player 2", 'O');
         List<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);

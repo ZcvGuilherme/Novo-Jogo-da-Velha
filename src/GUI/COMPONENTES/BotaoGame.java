@@ -1,6 +1,7 @@
 package GUI.COMPONENTES;
 import java.awt.Color;
 import java.net.URL;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
@@ -8,21 +9,27 @@ public class BotaoGame extends JButton{
     private boolean clicavel;
     private int i;
     private int j;
-    
+    private boolean Clicado;
     public BotaoGame(){
         super("");
         this.clicavel = true;   
+        this.Clicado = false;
         configure();
     }
     private void configure(){
-        setContentAreaFilled(false); // Permite que o botão seja preenchido
-        setBorderPainted(false); // Permite que a borda do botão seja desenhada
-        setFocusPainted(false); // Remove o foco visual do botão
-        setOpaque(false); // Torna o botão visível
-        setBorder(new EmptyBorder(5, 5, 5, 5)); // Define uma borda visível
+        setContentAreaFilled(false); 
+        setBorderPainted(false); 
+        setFocusPainted(false); 
+        setOpaque(false); 
+        setBorder(new EmptyBorder(5, 5, 5, 5)); 
         setBackground(Color.WHITE);
     }
-
+    public boolean foiClicado() {
+        return Clicado;
+    }
+    public void setFoiClicado(boolean clicado) {
+        this.Clicado = clicado;
+    }
     public void setClicavel(boolean click){
         this.clicavel = click;
     }
@@ -35,7 +42,9 @@ public class BotaoGame extends JButton{
         setIcon(null);
         setClicavel(true);
     }
-
+    public Icon getImage(){
+        return getIcon();
+    }
     public void setImage(char caracter) {
         URL imageUrl = getClass().getResource("/GAME/IMAGES/" + (caracter == 'X' ? "X.png" : "BOLA.png"));
         if (imageUrl == null) {

@@ -1,6 +1,7 @@
 package GUI.COMPONENTES;
 
 import java.awt.event.ActionListener;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
