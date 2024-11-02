@@ -7,11 +7,15 @@ import GUI.COMPONENTES.GameMode;
 import GUI.COMPONENTES.PopUp;
 import GUI.COMPONENTES.BOTOES.Botao;
 import GUI.COMPONENTES.BOTOES.BotaoGame;
+import GUI.COMPONENTES.BOTOES.Position;
 import GUI.TELAS.TelaGenerica;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,7 +30,7 @@ public class TelaGame extends TelaGenerica{
     private JLabel campoJogadorAtual;
     private Botao botaoSair;
     private Botao botaoReiniciar;
-    private BotaoGame[][] botoesGame;
+    private Map<Position, BotaoGame> botoesGameMap;
     private JPanel painelPrincipal;
     private GameMode gameMode;
 	public TelaGame(GameMode gameMode) {
@@ -74,18 +78,18 @@ public class TelaGame extends TelaGenerica{
         }
     }
 
-	public void setBotoesClicavel(boolean clicavel){
-		for (int i = 0 ; i < botoesGame.length ; i++){
-			for (int j = 0; j < botoesGame.length; j++){
-				if (botoesGame[i][j].foiClicado())
-					botoesGame[i][j].setClicavel(clicavel);
-			}
-		}
-	}
-	
-    private void ativarBotao(BotaoGame botao, int i, int j) {
+    public void setBotoesClicavel(boolean clicavel) {
+        for (Position pos : Position.values()) {
+            BotaoGame botao = botoesGameMap.get(pos);
+            if (botao.foiClicado()) {
+                botao.setClicavel(clicavel);
+            }
+        }
+    }
+    private void ativarBotao(Position pos) {
+    	BotaoGame botao = botoesGameMap.get(pos);
         if (botao.getClicavel() && !isGameOver()) {
-            gameMode.play(i, j);
+            gameMode.play(pos.getLinha(), pos.getColuna());
 			botao.setFoiClicado(true);
             botao.setImage(playerAtual.getsymbol());
             botao.setClicavel(false);
@@ -102,10 +106,11 @@ public class TelaGame extends TelaGenerica{
     }
 
     private void restartGame() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                botoesGame[i][j].limparBotao();
-            }
+        for(Position pos : Position.values()) {
+        	BotaoGame botao = botoesGameMap.get(pos);
+        	if(botao != null) {
+        		botao.limparBotao();
+        	}
         }
         gameMode.resetGame();
         changePlayer();
@@ -120,16 +125,26 @@ public class TelaGame extends TelaGenerica{
             }
         });
     }
-
+    
     private void iniciarComponentes(int size) {
+    	botoesGameMap = new HashMap<>();
+	    int buttonSize = 100;
+	    int posX = 100;
+	    int posY = 100;
+    	
+    	
+    	
+    	
         painelPrincipal = new JPanel(); 
         painelPrincipalConfig();
         jogadorAtualConfig();
         
-        botoesGame = CriarComponente.criarBotoes(size, painelPrincipal, e -> {
-            BotaoGame botaoClicado = (BotaoGame) e.getSource();
-            ativarBotao(botaoClicado, botaoClicado.getI(), botaoClicado.getJ());
-        });
+        for (Position pos : Position.values()) {
+        	BotaoGame botao = CriarComponente.criarBotaoGame(e -> ativarBotao(pos));
+        	botao.setBounds(posX + pos.getColuna() * buttonSize, posY + pos.getLinha() * buttonSize, buttonSize, buttonSize);
+        	botoesGameMap.put(pos, botao);
+        	painelPrincipal.add(botao);
+        }
         
         botaoReiniciar = CriarComponente.criarBotao("Reiniciar", e -> restartGame());
         botaoReiniciarConfig();
