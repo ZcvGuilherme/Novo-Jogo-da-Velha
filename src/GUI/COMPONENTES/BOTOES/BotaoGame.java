@@ -1,4 +1,4 @@
-package GUI.COMPONENTES;
+package GUI.COMPONENTES.BOTOES;
 import java.awt.Color;
 import java.net.URL;
 import javax.swing.Icon;

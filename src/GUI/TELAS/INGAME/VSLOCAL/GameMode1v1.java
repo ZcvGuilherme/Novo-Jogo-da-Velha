@@ -3,20 +3,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import GAME.Game;
+import GAME.PLAYERS.HumanPlayer;
 import GAME.PLAYERS.Player;
 import GUI.COMPONENTES.GameMode;
 public class GameMode1v1 implements GameMode{
     private Game game;
     private int size;
     private String nomeTela;
-    private Player player1;
-    private Player player2;
+    private HumanPlayer player1;
+    private HumanPlayer player2;
     private List<Player> players = new ArrayList<>();
-    public GameMode1v1(){
+    public GameMode1v1(String nomePlayer1){
         super();
         this.size = 3;
-        player1 = new Player("Player1", 'X');
-        player2 = new Player("Player2", 'O');
+        player1 = new HumanPlayer(nomePlayer1, 'X');
+        player2 = new HumanPlayer("Player2", 'O');
         players.add(player1);
         players.add(player2);
         this.game = new Game(players, size);

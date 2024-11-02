@@ -1,9 +1,9 @@
 package GAME.PLAYERS;
 
-public class Player {
+public abstract class Player implements TypePlayer{
 
-    private String nome;
-    private char symbol;
+    protected String nome;
+    protected char symbol;
     /**
      * Construtor do Player. Inicialmente somente com o ID, Nome e symbol como parametros
      * @param nome - Nome a ser usado in-game 
@@ -30,5 +30,5 @@ public class Player {
     public void setsymbol(char symbol) {
         this.symbol = symbol;
     }
-
+    
 }

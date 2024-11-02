@@ -1,4 +1,4 @@
-package GUI.COMPONENTES;
+package GUI.COMPONENTES.BOTOES;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;

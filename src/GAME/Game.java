@@ -53,6 +53,9 @@ public class Game {
         return false;
         }
     }
+    public int getBoardSize() {
+    	return board.getSize();
+    }
     public boolean isGameOver(){
         return ruleChecker.isGameOver(lastPlayer);
     }

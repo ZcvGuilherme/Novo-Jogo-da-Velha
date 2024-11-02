@@ -7,6 +7,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import GUI.COMPONENTES.BOTOES.Botao;
+import GUI.COMPONENTES.BOTOES.BotaoGame;
+
 public class CriarComponente {
     public static Botao criarBotao(String texto, ActionListener action) {
         Botao button = new Botao(texto); // Usando seu botão personalizado

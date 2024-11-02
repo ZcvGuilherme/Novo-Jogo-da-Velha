@@ -1,0 +1,29 @@
+Lista de coisas para fazer:
+Retirar a logica do player das classes GameMode, assim, é possivel fazer um jogador para a GUI, podendo configurar um Bot ou Player normal.
+Retirar a logica de passar o turno das classes GameMode, garantindo que apenas a classe game tem acesso a isso
+ ******
+ Remoção do Thread.sleep():
+
+    Colocar Thread.sleep() diretamente em play causa um bloqueio que pode afetar a experiência do usuário.
+     Em vez disso, o método botPlay poderia ser chamado em uma Thread ou SwingWorker, permitindo que a interface
+     responda enquanto o bot "pensa".
+     
+*******
+
+
+verificarVitoria inicializa PopUp alem de verificar a Vitoria, criar uma classe de gerenciamento de estado da interface
+ex:.GameStatusHandler.java
+o método poderia apenas verificar o status e atualizar a interface de forma mais genérica
+
+utilizar observadores onde NewTelaGame se registra para ouvir mudanças da classe GameMode, para evitar chamar diretamente
+setCampoColor() e/ou JLabel 
+
+
+Remoção de Códigos Duplicados:
+
+    botaoReiniciarConfig() e botaoSairConfig() contêm lógica repetida de posicionamento e cor.
+     Você poderia consolidar essa lógica em um único método configurável que recebe o botão como parâmetro 
+     e define os atributos específicos.
+     
+     
+Fazer um HashMap para os botoes, para que não seja necessario percorrer todos os botoes para saber se foram clicados
