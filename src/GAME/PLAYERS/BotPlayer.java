@@ -4,22 +4,22 @@ import java.util.Random;
 
 import GAME.Game;
 
-public class BotPlayer extends Player{
+public class BotPlayer extends Player {
 	private Random random = new Random();
 	public BotPlayer(String nome, char symbol) {
 		super(nome, symbol);
 	}
-
+	
+	private void randomPlay(Game game) {
+		int boardSize = game.getBoardSize();
+		this.i = random.nextInt(boardSize);
+		this.j = random.nextInt(boardSize);
+	}
 	@Override
 	public boolean makeMove(Game game) {
-		int boardSize = game.getBoardSize();
-		int i;
-		int j;
 		boolean moveMade;
-		
 		do {
-			i = random.nextInt(boardSize);
-			j = random.nextInt(boardSize);
+			randomPlay(game);
 			moveMade = game.play(i, j);
 			System.out.println("Jogando em: " + i + j);
 		} while (!moveMade);

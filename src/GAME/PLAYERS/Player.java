@@ -1,7 +1,10 @@
 package GAME.PLAYERS;
 
-public abstract class Player implements TypePlayer{
+import java.io.Serializable;
 
+public abstract class Player implements TypePlayer, Serializable{
+	protected int i;
+	protected int j;
     protected String nome;
     protected char symbol;
     /**
@@ -19,8 +22,9 @@ public abstract class Player implements TypePlayer{
         return nome;
     }
 
-    public void setNome(String nome) {
+    public Player setNome(String nome) {
         this.nome = nome;
+        return this;
     }
 
     public char getsymbol() {
@@ -30,5 +34,15 @@ public abstract class Player implements TypePlayer{
     public void setsymbol(char symbol) {
         this.symbol = symbol;
     }
+
+	public int getJ() {
+		return j;
+	}
+	
+	public int getI() {
+		return i;
+	}
+
+	
     
 }

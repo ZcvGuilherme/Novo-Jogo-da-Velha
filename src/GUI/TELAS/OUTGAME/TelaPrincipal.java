@@ -1,13 +1,15 @@
 package GUI.TELAS.OUTGAME;
 
 import GUI.COMPONENTES.CriarComponente;
+import GUI.GAMEMODE.GameMode1v1;
+import GUI.GAMEMODE.GameModeBot;
+import GUI.TELAS.TelaGame;
 import GUI.TELAS.TelaGenerica;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
 public class TelaPrincipal extends TelaGenerica{
-    
     private JLabel campo;
     private JButton vsPC;
     private JButton vsPlayer;
@@ -40,13 +42,16 @@ public class TelaPrincipal extends TelaGenerica{
     }
 
     private void comando1(String NomePlayer1){
+    	TelaGame telaGame = new TelaGame(new GameModeBot(NomePlayer1));
+        telaGame.mostrar();
+        telaGame.setTelaPrincipal(this);
+        tela.setVisible(false);  
     }
     private void comando2(String NomePlayer1){
-        tela.setVisible(false);
-        // TelaGame telaJogo = Iniciar.TelaJogo1v1(NomePlayer1);
-        // telaJogo.setTelaPrincipal(this);
-        
-        
+    	TelaGame telaGame = new TelaGame(new GameMode1v1(NomePlayer1));
+        telaGame.mostrar();    
+        telaGame.setTelaPrincipal(this);
+        tela.setVisible(false);  
     }
     private void comando3(String NomePlayer1){
 

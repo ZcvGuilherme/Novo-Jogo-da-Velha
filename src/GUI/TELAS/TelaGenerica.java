@@ -1,7 +1,6 @@
 package GUI.TELAS;
 
 import java.awt.Dimension;
-
 import javax.swing.JFrame;
 
 public abstract class TelaGenerica {

@@ -37,19 +37,24 @@ public class BotaoGame extends JButton{
     public boolean getClicavel(){
         return clicavel;
     }
-
     public void limparBotao(){
         setIcon(null);
         setClicavel(true);
+        setFoiClicado(false);
     }
     public Icon getImage(){
         return getIcon();
     }
     public void setImage(char caracter) {
-        URL imageUrl = getClass().getResource("/GAME/IMAGES/" + (caracter == 'X' ? "X.png" : "BOLA.png"));
+    	URL imageUrl = null;
+    	if (caracter == 'X') {
+    		imageUrl = getClass().getResource("/GAME/IMAGES/X.png");
+    	} else if (caracter == 'O') {
+    		imageUrl = getClass().getResource("/GAME/IMAGES/BOLA.png");
+    	}
         if (imageUrl == null) {
             System.out.println("Imagem não encontrada para o caractere: " + caracter);
-            setIcon(null); // Não exibe nenhuma imagem se a URL for null
+            setIcon(null); 
         } else {
             setIcon(new ImageIcon(imageUrl));
         }
