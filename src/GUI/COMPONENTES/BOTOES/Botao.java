@@ -1,8 +1,9 @@
-package GUI.COMPONENTES;
+package GUI.COMPONENTES.BOTOES;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 

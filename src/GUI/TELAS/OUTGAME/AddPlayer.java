@@ -1,15 +1,16 @@
 package GUI.TELAS.OUTGAME;
-import GUI.COMPONENTES.CriarComponente;
-import GUI.TELAS.Iniciar;
-import GUI.TELAS.TelaGenerica;
-
 import java.awt.Color;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+
+import GUI.COMPONENTES.CriarComponente;
+import GUI.TELAS.Iniciar;
+import GUI.TELAS.TelaGenerica;
 
 
 public class AddPlayer extends TelaGenerica{
