@@ -1,6 +1,7 @@
-package GUI.COMPONENTES;
+package GUI.COMPONENTES.BOTOES;
 import java.awt.Color;
 import java.net.URL;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
@@ -8,21 +9,27 @@ public class BotaoGame extends JButton{
     private boolean clicavel;
     private int i;
     private int j;
-    
+    private boolean Clicado;
     public BotaoGame(){
         super("");
         this.clicavel = true;   
+        this.Clicado = false;
         configure();
     }
     private void configure(){
-        setContentAreaFilled(false); // Permite que o botão seja preenchido
-        setBorderPainted(false); // Permite que a borda do botão seja desenhada
-        setFocusPainted(false); // Remove o foco visual do botão
-        setOpaque(false); // Torna o botão visível
-        setBorder(new EmptyBorder(5, 5, 5, 5)); // Define uma borda visível
+        setContentAreaFilled(false); 
+        setBorderPainted(false); 
+        setFocusPainted(false); 
+        setOpaque(false); 
+        setBorder(new EmptyBorder(5, 5, 5, 5)); 
         setBackground(Color.WHITE);
     }
-
+    public boolean foiClicado() {
+        return Clicado;
+    }
+    public void setFoiClicado(boolean clicado) {
+        this.Clicado = clicado;
+    }
     public void setClicavel(boolean click){
         this.clicavel = click;
     }
@@ -30,17 +37,24 @@ public class BotaoGame extends JButton{
     public boolean getClicavel(){
         return clicavel;
     }
-
     public void limparBotao(){
         setIcon(null);
         setClicavel(true);
+        setFoiClicado(false);
     }
-
+    public Icon getImage(){
+        return getIcon();
+    }
     public void setImage(char caracter) {
-        URL imageUrl = getClass().getResource("/GAME/IMAGES/" + (caracter == 'X' ? "X.png" : "BOLA.png"));
+    	URL imageUrl = null;
+    	if (caracter == 'X') {
+    		imageUrl = getClass().getResource("/GAME/IMAGES/X.png");
+    	} else if (caracter == 'O') {
+    		imageUrl = getClass().getResource("/GAME/IMAGES/BOLA.png");
+    	}
         if (imageUrl == null) {
             System.out.println("Imagem não encontrada para o caractere: " + caracter);
-            setIcon(null); // Não exibe nenhuma imagem se a URL for null
+            setIcon(null); 
         } else {
             setIcon(new ImageIcon(imageUrl));
         }
