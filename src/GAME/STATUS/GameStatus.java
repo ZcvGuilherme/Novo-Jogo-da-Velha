@@ -1,11 +1,13 @@
 package GAME.STATUS;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import GAME.PLAYERS.TypePlayer;
 import GAME.TABULEIRO.Board;
 
-public class GameStatus {
+public class GameStatus implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private Status statusAtual;
 	private List<ButtonState> botoes;
 	private TypePlayer jogadorAtual;

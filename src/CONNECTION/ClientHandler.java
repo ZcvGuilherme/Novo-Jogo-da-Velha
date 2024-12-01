@@ -1,48 +1,38 @@
 package CONNECTION;
 
+import GAME.STATUS.GameStatus;
 import java.io.*;
 import java.net.*;
-import java.util.*;
 
 public class ClientHandler implements Runnable {
     private final Socket socket;
-    private final List<Socket> clients;
+    private final Broadcaster broadcaster;
 
-    public ClientHandler(Socket socket, List<Socket> clients) {
+    public ClientHandler(Socket socket, Broadcaster broadcaster) {
         this.socket = socket;
-        this.clients = clients;
+        this.broadcaster = broadcaster;
     }
 
     @Override
     public void run() {
-        try (BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter output = new PrintWriter(socket.getOutputStream(), true)) {
-
-            String message;
-            while ((message = input.readLine()) != null) {
-                System.out.println("Mensagem recebida: " + message);
-                broadcast(message);
+        try (ObjectInputStream input = new ObjectInputStream(socket.getInputStream())) {
+            Object receivedObject;
+            while ((receivedObject = input.readObject()) != null) {
+                if (receivedObject instanceof GameStatus) {
+                    GameStatus status = (GameStatus) receivedObject;
+                    System.out.println("GameStatus recebido do cliente: " + status);
+                    broadcaster.broadcast(status); // Transmite para os outros clientes
+                } else {
+                    System.out.println("Objeto não reconhecido recebido: " + receivedObject);
+                }
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("Cliente desconectado: " + socket.getInetAddress());
         } finally {
             try {
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-        }
-    }
-
-    private void broadcast(String message) {
-        synchronized (clients) {
-            for (Socket client : clients) {
-                try {
-                    PrintWriter clientOutput = new PrintWriter(client.getOutputStream(), true);
-                    clientOutput.println(message);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         }
     }

@@ -133,4 +133,7 @@ public class Game {
     public GameStatus getStatus() {
     	return status;
     }
+    public void setGameStatus(GameStatus status) {
+    	this.status = status;
+    }
 }

@@ -1,6 +1,8 @@
 package GAME.STATUS;
 
-public class ButtonState {
+import java.io.Serializable;
+
+public class ButtonState implements Serializable{
 	private int i;
 	private int j;
 	private boolean clicado;

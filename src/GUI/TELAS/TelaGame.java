@@ -35,11 +35,8 @@ public class TelaGame extends TelaGenerica implements Observer{
 		iniciarComponentes();
 		configuraTelaFechamento();
 		this.gameMode = gameMode;
-		gameMode.addObserver(this);
 		painelPrincipal.revalidate();
-		painelPrincipal.repaint();
-		
-		
+		painelPrincipal.repaint();		
 	}
 	//----------------------------------------------------\\
 			//-----------configura tela --------\\

@@ -1,43 +1,101 @@
 package CONNECTION;
 
-import java.io.*;
-		
-import java.net.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Client {
-    private static final String SERVER_ADDRESS = "localhost";
-    private static final int SERVER_PORT = 12345;
+import GAME.STATUS.GameStatus;
+import GUI.OBSERVERS.Observable;
+import GUI.OBSERVERS.Observer;
 
-    public static void main(String[] args) {
-        try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-             BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in))) {
-
-            System.out.println("Conectado ao servidor!");
-            System.out.println("Digite suas mensagens:");
-
-            // Thread para receber mensagens do servidor
-            new Thread(() -> {
-                try {
-                    String serverMessage;
-                    while ((serverMessage = input.readLine()) != null) {
-                        System.out.println("Mensagem recebida: " + serverMessage);
-                    }
-                } catch (IOException e) {
-                    System.out.println("Conexão encerrada pelo servidor.");
-                }
-            }).start();
-
-            // Enviar mensagens para o servidor
-            String message;
-            while ((message = consoleInput.readLine()) != null) {
-                output.println(message);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+public class Client implements Observer, Observable{
+	private List<Observer> observers;
+	private Socket socket;
+	private ObjectOutputStream output;
+    private ObjectInputStream input;
+    private GameStatus status;
+    
+    Client(){
+    	this.observers = new ArrayList<>();
     }
-}
+	public void connect(String host, int porta) {
+		try {
+			socket = new Socket(host, porta);
+			output = new ObjectOutputStream(socket.getOutputStream());
+			input = new ObjectInputStream(socket.getInputStream());
+				
+			System.out.println("Conectado ao servidor: "+ host + ":" + porta);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void update(GameStatus status) {
+		if (socket != null && !socket.isClosed()) {
+			try {
+				output.writeObject(status);
+				output.flush();
+				System.out.println("Status enviado!");
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void waitUpdate() {
+		new Thread(() -> {
+				try {
+					while(true) {
+						Object objetoRecebido = input.readObject();
+						if (objetoRecebido instanceof GameStatus) {
+							this.status = (GameStatus) objetoRecebido;
+							System.out.println("GameStatus recebido");
+							System.out.println("Atualizando Tela...");
+							notifyObservers();
+						}
+					}
+				}  catch (IOException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+		}).start();
+	}
+	
+	public void desconectar() {
+	    try {
+	        if (output != null) output.close();
+	        if (input != null) input.close();
+	        if (socket != null) socket.close();
+	        System.out.println("Client desconectado");
+	    } catch (IOException e) {
+	        System.out.println("Erro ao desconectar: " + e.getMessage());
+	    }
+	}
 
+	public void addObserver(Observer observer) {
+	    if (!observers.contains(observer)) {
+	        observers.add(observer);
+	    }
+	}
+	
+	public void removeObserver(Observer observer) {
+		this.observers.remove(observer);
+	}
+
+	public void notifyObservers() {
+		if (status != null) {
+			for (Observer observer : observers) {
+				observer.update(status);
+			}
+		}
+		
+	
+	}
+
+}

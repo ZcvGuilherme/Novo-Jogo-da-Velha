@@ -1,4 +1,5 @@
 package GUI;
+import GUI.GAMEMODE.GameMode;
 import GUI.GAMEMODE.GameMode1v1;
 import GUI.GAMEMODE.GameModeBot;
 import GUI.GAMEMODE.GameModeOnline;
@@ -7,8 +8,9 @@ import GUI.TELAS.TelaGame;
 
 public class Teste {
     public static void main(String[] args) {
-        TelaGame tela = new TelaGame(new GameMode1v1("Nome"));
-       
+    	GameMode gamemode = new GameMode1v1("Jogador");
+        TelaGame tela = new TelaGame(gamemode);
+        gamemode.addObserver(tela);
         tela.mostrar();
     }
 }

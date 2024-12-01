@@ -1,4 +1,4 @@
-package CONNECTION;
+package CONNECTION.TESTES;
 
 import java.io.*;
 import java.net.*;

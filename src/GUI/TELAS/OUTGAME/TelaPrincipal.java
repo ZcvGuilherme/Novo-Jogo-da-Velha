@@ -1,6 +1,7 @@
 package GUI.TELAS.OUTGAME;
 
 import GUI.COMPONENTES.CriarComponente;
+import GUI.GAMEMODE.GameMode;
 import GUI.GAMEMODE.GameMode1v1;
 import GUI.GAMEMODE.GameModeBot;
 import GUI.TELAS.TelaGame;
@@ -42,13 +43,17 @@ public class TelaPrincipal extends TelaGenerica{
     }
 
     private void comando1(String NomePlayer1){
-    	TelaGame telaGame = new TelaGame(new GameModeBot(NomePlayer1));
+    	GameMode gamemode = new GameModeBot(NomePlayer1);
+    	TelaGame telaGame = new TelaGame(gamemode);
+    	gamemode.addObserver(telaGame);
         telaGame.mostrar();
         telaGame.setTelaPrincipal(this);
         tela.setVisible(false);  
     }
     private void comando2(String NomePlayer1){
-    	TelaGame telaGame = new TelaGame(new GameMode1v1(NomePlayer1));
+    	GameMode gamemode = new GameMode1v1(NomePlayer1);
+    	TelaGame telaGame = new TelaGame(gamemode);
+    	gamemode.addObserver(telaGame);
         telaGame.mostrar();    
         telaGame.setTelaPrincipal(this);
         tela.setVisible(false);  
