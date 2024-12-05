@@ -2,7 +2,9 @@ package GAME;
 
 import java.util.List;
 import java.util.Random;
+
 import GAME.PLAYERS.TypePlayer;
+import GAME.STATUS.ButtonState;
 import GAME.STATUS.GameStatus;
 import GAME.STATUS.Status;
 import GAME.TABULEIRO.Board;
@@ -27,10 +29,11 @@ public class Game {
         this.currentPlayer = players.get(indexPlayer);
         this.lastPlayer = currentPlayer;
         this.status = new GameStatus(size);
-        StateUpdate();
+        
+        stateUpdate();
     }
     //------------------------STATUS GAME COMMANDS-----------------------\\
-    public void StateUpdate() {
+    public void stateUpdate() {
         status.atualizarBotoes(board);
         status.setJogadorAtual(currentPlayer);
         if (isWin()) { // Verifica vitória primeiro
@@ -65,7 +68,7 @@ public class Game {
         board.setPlay(i, j, lastPlayer.getsymbol());
         nextPlayer();
         isGameOver();
-        StateUpdate();
+        stateUpdate();
         return true;
     } else {
         //Faça aqui alguma mudança de lógica caso necessário retornar algo
@@ -92,7 +95,7 @@ public class Game {
     public void resetGame() {
         board.clear();
         resetPlayer();
-        StateUpdate();
+        stateUpdate();
     }
     public void mostrarTabuleiro() {
     int size = board.getSize();
@@ -133,7 +136,16 @@ public class Game {
     public GameStatus getStatus() {
     	return status;
     }
-    public void setGameStatus(GameStatus status) {
-    	this.status = status;
+
+    public void refresh(GameStatus status) {
+    	for (ButtonState botao : status.getBotoes()) {
+    		int i= botao.getI();
+    		int j = botao.getJ();
+    		char simbolo = botao.getSimbolo();
+    		
+    		board.setPlay(i, j, simbolo);
+    	}
+    	this.currentPlayer = status.getJogadorAtual();
+    	stateUpdate();
     }
 }

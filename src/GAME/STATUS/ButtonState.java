@@ -3,6 +3,10 @@ package GAME.STATUS;
 import java.io.Serializable;
 
 public class ButtonState implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int i;
 	private int j;
 	private boolean clicado;

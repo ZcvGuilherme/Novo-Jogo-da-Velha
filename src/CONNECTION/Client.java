@@ -34,6 +34,18 @@ public class Client implements Observer, Observable{
 			e.printStackTrace();
 		}
 	}
+	
+	public void desconectar() {
+	    try {
+	        if (output != null) output.close();
+	        if (input != null) input.close();
+	        if (socket != null) socket.close();
+	        System.out.println("Client desconectado");
+	    } catch (IOException e) {
+	        System.out.println("Erro ao desconectar: " + e.getMessage());
+	    }
+	}
+	
 	@Override
 	public void update(GameStatus status) {
 		if (socket != null && !socket.isClosed()) {
@@ -57,7 +69,7 @@ public class Client implements Observer, Observable{
 						if (objetoRecebido instanceof GameStatus) {
 							this.status = (GameStatus) objetoRecebido;
 							System.out.println("GameStatus recebido");
-							System.out.println("Atualizando Tela...");
+							System.out.println("jogador atual: " + status.getJogadorAtual().getNome());
 							notifyObservers();
 						}
 					}
@@ -67,16 +79,7 @@ public class Client implements Observer, Observable{
 		}).start();
 	}
 	
-	public void desconectar() {
-	    try {
-	        if (output != null) output.close();
-	        if (input != null) input.close();
-	        if (socket != null) socket.close();
-	        System.out.println("Client desconectado");
-	    } catch (IOException e) {
-	        System.out.println("Erro ao desconectar: " + e.getMessage());
-	    }
-	}
+	
 
 	public void addObserver(Observer observer) {
 	    if (!observers.contains(observer)) {

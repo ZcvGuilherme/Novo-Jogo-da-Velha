@@ -2,7 +2,7 @@ package GUI;
 import GUI.GAMEMODE.GameMode;
 import GUI.GAMEMODE.GameMode1v1;
 import GUI.GAMEMODE.GameModeBot;
-import GUI.GAMEMODE.GameModeOnline;
+import GUI.GAMEMODE.ONLINE.GAMEMODE.GameModeOnline;
 import GUI.GAMEMODE.ONLINE.SELECAO.Menu;
 import GUI.TELAS.TelaGame;
 

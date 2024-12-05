@@ -11,7 +11,8 @@ public class GameMode1v1 extends GameMode{
 	private static HumanPlayer hplayer1 = new HumanPlayer("Player1", 'X');
 	private static HumanPlayer hplayer2 = new HumanPlayer("Player2", 'O');
 	public GameMode1v1(String nome) {
-		super(hplayer1.setNome(nome), hplayer2);
+		super(hplayer1, hplayer2);
+		hplayer1.setNome(nome);
 		this.jogavel = true;
 		notifyObservers();
 	}

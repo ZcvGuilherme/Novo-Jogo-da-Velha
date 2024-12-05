@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import GAME.STATUS.ButtonState;
 import GAME.STATUS.GameStatus;
@@ -174,11 +175,8 @@ public class TelaGame extends TelaGenerica implements Observer{
     }
 	@Override
 	public void update(GameStatus status) {
-		atualizarBotao(status);
-		atualizaJogadorAtual(status.getJogadorAtual().getNome());
-		painelPrincipal.repaint();
+			atualizarBotao(status);
+			atualizaJogadorAtual(status.getJogadorAtual().getNome());
+			painelPrincipal.repaint();
 	}
-	
-	
-	
 }

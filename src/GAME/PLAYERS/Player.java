@@ -3,6 +3,10 @@ package GAME.PLAYERS;
 import java.io.Serializable;
 
 public abstract class Player implements TypePlayer, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected int i;
 	protected int j;
     protected String nome;
@@ -22,9 +26,9 @@ public abstract class Player implements TypePlayer, Serializable{
         return nome;
     }
 
-    public Player setNome(String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
-        return this;
+        
     }
 
     public char getsymbol() {

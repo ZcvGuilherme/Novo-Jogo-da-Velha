@@ -1,28 +1,43 @@
+
 package CONNECTION;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import GAME.STATUS.GameStatus;
-import java.io.*;
-import java.net.*;
-import java.util.*;
 
 public class Broadcaster {
     private final List<Socket> clients;
+    private final Map<Socket, ObjectOutputStream> clientStreams = new HashMap<>();
 
     public Broadcaster(List<Socket> clients) {
         this.clients = clients;
     }
 
-    // Método para enviar o GameStatus para todos os clientes conectados
+    public void addClient(Socket client) throws IOException {
+        synchronized (clients) {
+            clients.add(client);
+            clientStreams.put(client, new ObjectOutputStream(client.getOutputStream()));
+        }
+    }
+
     public void broadcast(GameStatus status) {
         synchronized (clients) {
-            for (Socket client : clients) {
+            Iterator<Socket> iterator = clients.iterator();
+            while (iterator.hasNext()) {
+                Socket client = iterator.next();
                 try {
-                    ObjectOutputStream clientOutput = new ObjectOutputStream(client.getOutputStream());
-                    clientOutput.writeObject(status); // Envia o GameStatus para os outros clientes
-                    clientOutput.flush();
+                    clientStreams.get(client).writeObject(status);
+                    clientStreams.get(client).flush();
+                    System.out.println("Enviando para todos os clientes....");
                 } catch (IOException e) {
                     System.out.println("Erro ao enviar para cliente: " + client.getInetAddress());
-                    e.printStackTrace();
+                    iterator.remove();
+                    clientStreams.remove(client);
                 }
             }
         }

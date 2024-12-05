@@ -10,7 +10,7 @@ import GUI.OBSERVERS.Observer;
 public abstract class GameMode implements Observable{
 	protected List<Observer> observers;
 	protected Game game;
-	private List<TypePlayer> players;
+	protected List<TypePlayer> players;
 	public GameMode(TypePlayer player1, TypePlayer player2) {
 		this.players = new ArrayList<>();
 		players.add(player1);
@@ -41,6 +41,6 @@ public abstract class GameMode implements Observable{
 		for (Observer observer : observers) {
 			observer.update(game.getStatus());
 		}
-	
 	}
+	
 }

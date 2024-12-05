@@ -7,11 +7,15 @@ import GAME.PLAYERS.TypePlayer;
 import GAME.TABULEIRO.Board;
 
 public class GameStatus implements Serializable{
+	
 	private static final long serialVersionUID = 1L;
 	private Status statusAtual;
 	private List<ButtonState> botoes;
 	private TypePlayer jogadorAtual;
 	private TypePlayer vencedor;
+	
+	private String player1;
+	private String player2;
 	public GameStatus(int size) {
 		this.statusAtual = Status.EM_ANDAMENTO;
 		this.botoes = new ArrayList<>();
@@ -65,5 +69,25 @@ public class GameStatus implements Serializable{
 	public List<ButtonState> getBotoes() {
 		return botoes;
 	}
+
+	public String getPlayer1() {
+		return player1;
+	}
+
+	public String getPlayer2() {
+		return player2;
+	}
+
+	public void setPlayer1(String player1) {
+		this.player1 = player1;
+	}
+
+	public void setPlayer2(String player2) {
+		this.player2 = player2;
+	}
+
+	
+
+	
 
 }

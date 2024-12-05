@@ -21,11 +21,10 @@ public class GameServer {
     		System.out.println("Aguardando dois clientes....");
     		
     		while (clients.size() < 2) {
-    			Socket clientSocket = serverSocket.accept();
-    			clients.add(clientSocket);
-    			
-    			System.out.println("Novo cliente conectado: " + clientSocket.getInetAddress());
-    			new Thread(new ClientHandler(clientSocket, broadcaster)).start();
+    		    Socket clientSocket = serverSocket.accept();
+    		    broadcaster.addClient(clientSocket);
+    		    System.out.println("Novo cliente conectado: " + clientSocket.getInetAddress());
+    		    new Thread(new ClientHandler(clientSocket, broadcaster)).start();
     		}
     		System.out.println("2 clientes conectaram");
     	} catch (IOException e) {
