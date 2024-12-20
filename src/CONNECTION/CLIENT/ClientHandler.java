@@ -1,8 +1,10 @@
-package CONNECTION;
+package CONNECTION.CLIENT;
 
 import GAME.STATUS.GameStatus;
 import java.io.*;
 import java.net.*;
+
+import CONNECTION.SERVER.Broadcaster;
 
 public class ClientHandler implements Runnable {
     private final Socket socket;

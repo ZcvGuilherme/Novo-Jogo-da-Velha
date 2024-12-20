@@ -1,4 +1,4 @@
-package CONNECTION;
+package CONNECTION.CLIENT;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,7 +18,7 @@ public class Client implements Observer, Observable{
     private ObjectInputStream input;
     private GameStatus status;
     
-    Client(){
+    public Client(){
     	this.observers = new ArrayList<>();
     }
 	public void connect(String host, int porta) {

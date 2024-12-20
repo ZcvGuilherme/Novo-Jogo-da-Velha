@@ -7,7 +7,6 @@ import java.util.Scanner;
 import GAME.Game;
 import GAME.PLAYERS.BotPlayer;
 import GAME.PLAYERS.HumanPlayer;
-import GAME.PLAYERS.Player;
 import GAME.PLAYERS.TypePlayer;
 
 public class VsBotMain {

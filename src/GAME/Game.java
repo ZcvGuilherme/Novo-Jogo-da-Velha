@@ -29,7 +29,7 @@ public class Game {
         this.currentPlayer = players.get(indexPlayer);
         this.lastPlayer = currentPlayer;
         this.status = new GameStatus(size);
-        
+
         stateUpdate();
     }
     //------------------------STATUS GAME COMMANDS-----------------------\\
@@ -136,7 +136,6 @@ public class Game {
     public GameStatus getStatus() {
     	return status;
     }
-
     public void refresh(GameStatus status) {
     	for (ButtonState botao : status.getBotoes()) {
     		int i= botao.getI();
@@ -148,4 +147,13 @@ public class Game {
     	this.currentPlayer = status.getJogadorAtual();
     	stateUpdate();
     }
+    public void setPlayerName(int index, String nome) {
+    	if (index < 0 || index >= players.size()) {
+            throw new IndexOutOfBoundsException("Índice inválido para o jogador.");
+        }
+        TypePlayer player = players.get(index);
+        player.setNome(nome);
+        stateUpdate();
+    }
+
 }

@@ -13,9 +13,8 @@ public class GameStatus implements Serializable{
 	private List<ButtonState> botoes;
 	private TypePlayer jogadorAtual;
 	private TypePlayer vencedor;
-	
-	private String player1;
-	private String player2;
+	private String player;
+
 	public GameStatus(int size) {
 		this.statusAtual = Status.EM_ANDAMENTO;
 		this.botoes = new ArrayList<>();
@@ -70,24 +69,12 @@ public class GameStatus implements Serializable{
 		return botoes;
 	}
 
-	public String getPlayer1() {
-		return player1;
+	public String getPlayer() {
+		return player;
 	}
 
-	public String getPlayer2() {
-		return player2;
+	public void setPlayer(String player) {
+		this.player = player;
 	}
-
-	public void setPlayer1(String player1) {
-		this.player1 = player1;
-	}
-
-	public void setPlayer2(String player2) {
-		this.player2 = player2;
-	}
-
-	
-
-	
 
 }

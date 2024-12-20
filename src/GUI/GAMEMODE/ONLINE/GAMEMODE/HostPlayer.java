@@ -18,23 +18,23 @@ public class HostPlayer extends GameMode implements Observer{
 		this.nome = nome;
 	}
 	
-	
 	@Override
 	public void fazerJogada(int i, int j) {
-		if (jogavel && game.play(i, j)) {
-			System.out.println("Eu sou o jogador "+ nome + "e estou fazendo a jogada");
-			notifyObservers();
-			verificarStatus();
-			jogavel = isTurn();
-		}
+	    if (jogavel && game.play(i, j)) {
+	        System.out.println("Eu sou o jogador " + nome + " e estou fazendo a jogada");
+	        notifyObservers();
+	        verificarStatus();
+	        jogavel = isTurn();
+	    }
 	}
+
 	@Override
     public void update(GameStatus status) {
 		System.out.println("Eu sou o jogador " + nome + " e estou atualizando");
-        game.refresh(status);
-        refreshClient(status);
+		game.refresh(status);
+		reloadName();
         jogavel = isTurn();
-        updateTelaOnly(status);
+        updateTelaOnly(game.getStatus());
     }
 	
 	@Override
@@ -66,12 +66,9 @@ public class HostPlayer extends GameMode implements Observer{
 			if (observer instanceof TelaGame) {
 				observer.update(status);
 			}
-			
-			
 		}
 	}
-	private void refreshClient(GameStatus status) {
-		nomeClient = status.getPlayer1();
-        players.get(0).setNome(nomeClient);
+	private void reloadName(){
+		game.setPlayerName(0, nome);
 	}
 }

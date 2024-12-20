@@ -118,5 +118,5 @@ public class GameModeOnline extends GameMode implements Observer{
 	        notifyObservers();
 	    }
 	}
-
+	
 }

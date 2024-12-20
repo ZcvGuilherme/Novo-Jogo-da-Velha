@@ -1,5 +1,6 @@
-package CONNECTION;
+package CONNECTION.TESTS;
 
+import CONNECTION.CLIENT.Client;
 import GUI.GAMEMODE.GameMode;
 import GUI.GAMEMODE.ONLINE.GAMEMODE.ClientPlayer;
 import GUI.TELAS.TelaGame;
@@ -14,8 +15,9 @@ public class TesteCliente2 {
 	    gamemode.addObserver(tela);
 	    gamemode.addObserver(client);
 	    client.addObserver((ClientPlayer) gamemode);
-
 	    client.connect("localhost", 12345);
+	    client.notifyObservers();
+	    System.out.println("notificando....");
 	    client.waitUpdate();
 	}
 }

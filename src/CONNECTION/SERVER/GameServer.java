@@ -1,11 +1,14 @@
-package CONNECTION;
+package CONNECTION.SERVER;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import CONNECTION.CLIENT.ClientHandler;
 
 public class GameServer {
 	
@@ -27,8 +30,23 @@ public class GameServer {
     		    new Thread(new ClientHandler(clientSocket, broadcaster)).start();
     		}
     		System.out.println("2 clientes conectaram");
+    		
+
     	} catch (IOException e) {
     		e.printStackTrace();
     	}
     }
+	
+	public void notifyPlayers(String hostName, String clientName) {
+	    for (Socket clientSocket : clients) {
+	        try {
+	            ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
+	            output.writeObject(new PlayerNames(hostName, clientName)); // Envia os nomes dos jogadores
+	            output.flush();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	}
+
 }

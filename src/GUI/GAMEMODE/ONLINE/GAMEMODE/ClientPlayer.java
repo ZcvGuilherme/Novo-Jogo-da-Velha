@@ -11,10 +11,10 @@ public class ClientPlayer extends GameMode implements Observer {
     private static final char CLIENT_SYMBOL = 'O';
     private boolean jogavel;
     private String nome;
-    private static String nomeP2 = "Waiting Host...";
+    private static String nomeHost = "Waiting Host...";
 
     public ClientPlayer(String nome) {
-        super(new HumanPlayer(nomeP2, 'X'), new HumanPlayer(nome, CLIENT_SYMBOL));
+        super(new HumanPlayer(nomeHost, 'X'), new HumanPlayer(nome, CLIENT_SYMBOL));
         this.jogavel = false; // O cliente não começa jogando
         this.nome = nome;
     }
@@ -31,16 +31,17 @@ public class ClientPlayer extends GameMode implements Observer {
     @Override
     public void update(GameStatus status) {
         System.out.println("Eu sou o jogador " + nome + " e estou atualizando");
+        game.nextPlayer();
+        status.setJogadorAtual(game.getCurrentPlayer());
         game.refresh(status);
-        refreshHost(status);
         jogavel = isTurn();
-        updateTelaOnly(status);
-        
+        updateTelaOnly(game.getStatus());
+        System.out.println("Jogador 2 atualizando");
     }
 
     @Override
-    public void resetarGame() {
-        game.resetGame();
+    public void resetarGame() { 
+    	game.resetGame();
         jogavel = isTurn();
         notifyObservers();
     }
@@ -72,8 +73,5 @@ public class ClientPlayer extends GameMode implements Observer {
             }
         }
     }
-    private void refreshHost(GameStatus status) {
-        nomeP2 = status.getPlayer1();
-        players.get(0).setNome(nomeP2);
-    }
+
 }
